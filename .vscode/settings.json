@@ -65,7 +65,6 @@
     "python.linting.enabled": true,
     "python.linting.lintOnSave": true,
     "python.terminal.activateEnvironment": false,
-    "autoDocstring.docstringFormat": "google",
     "pythonIndent.trimLinesWithOnlyWhitespace": true,
     // Markdown
     "[markdown]": {

@@ -1,4 +1,5 @@
 from math import gamma  # * see also scipy.special
+from random import random
 
 import numpy as np
 import numpy.linalg as la
@@ -13,25 +14,22 @@ class BallWindow:
         """Initialize the BallWindows from the center and the radius
 
         Args:
-            center (list) : gives the coordinates of the center
-            radius (int) : gives the radius of the ball. Default to 1.
+            center (list) : Gives the coordinates of the center
+            radius (float) : Gives the radius of the ball. Default to 1.
         """
+
         self.center = np.array(center)
-        self.radius = float(radius)  # why converting to float
+        self.radius = radius
 
     def __str__(self):
-        """Display the BallWindow in a string
+        """Display the BallWindow as a string
 
         Returns:
-            [string]: BallWindows center and radius
+            string: BallWindows center and radius
         """
-        # ! use f-strings
+
         description = (
-            "BallWindow: center"
-            + str(list(self.center))
-            + " & radius["
-            + str(self.radius)
-            + "]."
+            f"BallWindow: center = {list(self.center)} & radius = {self.radius}"
         )
         return description
 
@@ -39,10 +37,10 @@ class BallWindow:
         """Returns the dimension of the space of the BallWindow
 
         Returns:
-            [int]: size of the space containing the BallWindow
+            int: Size of the space containing the BallWindow
         """
-        # ? how about .size
-        return self.center.shape[0]
+
+        return self.center.size
 
     def __contains__(self, point):
         """Indicates whether the argument given is inside the Ball Window of not.
@@ -52,21 +50,29 @@ class BallWindow:
             point (np.array): [list of coordinates]
 
         Returns:
-            [boolean]: [True if the point is inside, else returns False]
+            boolean: True if the point is inside, else returns False
         """
+
         # ? readability: len(self) => self.dimension()
-        assert len(point) == len(self)  ##Test if the point has the same dimension
+        assert (
+            len(point) == self.dimension()
+        )  ##Test if the point has the same dimension
         return la.norm(self.center - point) <= self.radius
 
     def dimension(self):
-        """Gives the dimension of the BallWindow"""
+        """Gives the dimension of the BallWindows, see __len__
+
+        Returns:
+            int: The dimension of the BallWindow
+        """
+
         return len(self)
 
     def volume(self):
         """Gives the volume of the BallWindow
 
         Returns:
-            [int]: [volume]
+            int: The volume of the BallWindow
         """
         n = self.dimension()
         R = self.radius
@@ -79,8 +85,8 @@ class BallWindow:
             args ([int]): 1 if the argument is inside the BallWindow, else 0
         """
         # * same remarks as in BoxWindow.indicator_function
-        if len(array_points.shape) > 1:
-            return np.array([int(p in self) for p in array_points])
+        if array_points.ndim > 1:
+            return np.array([int(p in self) for p in array_points], dtype=int)
         return int(array_points in self)
 
     def rand(self, n=1, rng=None):
@@ -90,18 +96,17 @@ class BallWindow:
             n (int, optional): Number of random points to generate. Defaults to 1.
             rng (type, optional): Defaults to None.
 
-        Returns: array which contains n points randomly uniformly generated
+        Returns: Array which contains n points randomly uniformly generated
 
         """
-        dim = len(self)
-        rng = get_random_number_generator(rng)
+        dim = self.dimension()
         r = self.radius
-        # ! readability: difficult to follow,
-        # ? are you sure the points are uniformly distributed
-        res = rng.uniform(0, 1, (n, dim))
-        # * use np.linalg.norm(, axis=)
-        normalis = np.apply_along_axis(np.linalg.norm, axis=0, arr=res)
-        res = res / normalis
-        dist = rng.uniform(-r, r, (n, 1))
-        res = res * dist  # * use *= (and potentially +=) operator
-        return res + self.center
+        rng = get_random_number_generator(rng)
+
+        points_l = np.empty((n, dim))
+        for index in range(n):
+            # an array of dim normally distributed random variables
+            u = np.random.normal(0, 1, dim)
+            point_radius = r * random() ** (1.0 / dim)
+            points_l[index] = np.reshape(point_radius * u / la.norm(u), (1, 2))
+        return points_l + self.center

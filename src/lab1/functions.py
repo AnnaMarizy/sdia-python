@@ -1,41 +1,23 @@
 def is_unique(x):
-    """Returns True if there is no duplicate in x otherwise return False.
+    """Returns True if there is no duplicate in x, otherwise return False
 
     Args:
-        x (list) : collection of elements
+        x (list): A list of elements
 
     Returns:
-        boolean: True/False to know if there is duplicates
-
+        bool: indicate if there is no duplicate in the list given
     """
-
-    for value in x:
-        if x.count(value) > 1:
-            return False
-    return True
-
-
-def is_unique2(x):
-    """Returns True if there is no duplicate in x otherwise return False.
-
-    Args:
-        x (list): collection of elements
-
-    Returns:
-        Boolean
-    """
-
     return len(set(x)) == len(x)
 
 
 def triangle_shape(height):
-    """Returns a string that forms a triangle with height prescribed by `height`, or '' if height=0
+    """Print a pyramid made of "x"
 
     Args:
-        height (int): height of the pyramid
+        height (int): The height of the pyramid
 
     Returns:
-        str: Representation of a pyramid
+        str: a string representing the pyramid, made with the character "x"
     """
 
     pyramid = ""

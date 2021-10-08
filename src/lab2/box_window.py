@@ -88,7 +88,7 @@ class BoxWindow:
 
         Returns: (n, d) array which contains n points randomly uniformly generated in a BoxWindow of dimension d
         """
-        dim = self.dimension
+        dim = self.dimension()
         rng = get_random_number_generator(rng)
 
         # * Nice use of numpy!
