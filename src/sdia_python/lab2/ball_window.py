@@ -4,7 +4,7 @@ from random import random
 import numpy as np
 import numpy.linalg as la
 
-from lab2.utils import get_random_number_generator
+from sdia_python.lab2.utils import get_random_number_generator
 
 
 class BallWindow:

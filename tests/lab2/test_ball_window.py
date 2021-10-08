@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from math import pi
 
-from lab2.ball_window import BallWindow
+from sdia_python.lab2.ball_window import BallWindow
 
 
 def test_raise_type_error_when_something_is_called():
@@ -14,8 +14,8 @@ def test_raise_type_error_when_something_is_called():
 @pytest.mark.parametrize(
     "center, radius, expected",
     [
-        ([2.5, 2.5], 1, "BallWindow: center[2.5, 2.5] & radius[1.0]."),
-        ([0, 5], 14, "BallWindow: center[0, 5] & radius[14.0]."),
+        ([2.5, 2.5], 1, "BallWindow: center = [2.5, 2.5] & radius = 1"),
+        ([0, 5], 14, "BallWindow: center = [0, 5] & radius = 14"),
     ],
 )
 def test_box_string_representation(center, radius, expected):

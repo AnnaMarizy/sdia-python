@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from lab2.box_window import BoxWindow, UnitBoxWindow
-from lab2.ball_window import BallWindow
+from sdia_python.lab2.box_window import BoxWindow, UnitBoxWindow
+from sdia_python.lab2.ball_window import BallWindow
 
 
 @pytest.fixture
